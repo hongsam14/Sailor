@@ -4,3 +4,10 @@
 tests/.tmp/
 *.seed.log
 .DS_Store
+
+# AI-DLC workflow (Sailor-development meta only) — kept LOCAL, never committed/distributed.
+# Sailor is itself an AI-tutor framework; bundling a second AI framework (AI-DLC) in the published
+# repo could interfere with agents/consumers. These live here for development but stay untracked.
+/CLAUDE.md
+/.aidlc-rule-details/
+/aidlc-docs/
