@@ -2,6 +2,7 @@
 # Canonical installed payload (MUST match payload.manifest and the code-generation plan).
 # Learner DATA (Knowledge/* entries, dialogue/* transcripts) is NEVER in this list and NEVER touched.
 
+# shellcheck disable=SC2034  # used by classify.sh / manifest.sh / fetch.sh (sourced siblings)
 SAILOR_PAYLOAD_FILES=(
   "AGENTS.md"
   "Skill/_TEMPLATE.md"

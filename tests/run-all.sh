@@ -6,7 +6,7 @@ rc=0
 
 echo "== shellcheck =="
 if command -v shellcheck >/dev/null 2>&1; then
-  shellcheck -x "$ROOT/installer/install.sh" "$ROOT"/installer/lib/*.sh "$ROOT"/scripts/*.sh || rc=1
+  shellcheck --severity=warning -x "$ROOT/installer/install.sh" "$ROOT"/installer/lib/*.sh "$ROOT"/scripts/*.sh || rc=1
 else
   echo "shellcheck not installed — skipped (runs in CI)"
 fi

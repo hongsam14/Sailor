@@ -79,7 +79,7 @@ p1p3() {
     b1="$(sailor_sha256 "$tgt/Knowledge/note-$i.md")"; b2="$(sailor_sha256 "$tgt/dialogue/topic-$i.md")"
     b3="$(sailor_sha256 "$tgt/assessments/exam-$i.md")"
     # P1: second update is a no-op
-    out="$($INSTALL update "$tgt" --source "$ROOT" --force 2>&1)"
+    $INSTALL update "$tgt" --source "$ROOT" --force >/dev/null 2>&1
     out2="$($INSTALL update "$tgt" --source "$ROOT" 2>&1)"
     echo "$out2" | grep -q "add=0 update=0 conflict=0" || { echo "  P1 FAIL iter=$i: $out2"; fail=1; }
     # P3: learner data unchanged
