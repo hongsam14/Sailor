@@ -1,0 +1,5 @@
+# Sailor shellcheck config
+enable=quote-safe-variables
+enable=require-variable-braces
+# lib files are sourced, not executed standalone:
+external-sources=true

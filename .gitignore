@@ -1,0 +1,6 @@
+# Sailor — installer temp / local noise
+*.tmp
+.sailor-backup/
+tests/.tmp/
+*.seed.log
+.DS_Store
