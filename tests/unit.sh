@@ -39,6 +39,10 @@ sailor_verify_payload "$v"; [ "$?" -eq 3 ] && ok "U3 verify fail-closed on missi
 sailor_is_learner_data "assessments/exam.md" && ok "U4 assessments/*.md protected" || no "U4 assessments/*.md protected"
 sailor_is_learner_data "assessments/_TEMPLATE.md" && no "U4b assessments/_TEMPLATE installable" || ok "U4b assessments/_TEMPLATE installable"
 
+# U6 — learner-data protection covers reading/ (but not its template)  [reading-companion FR-20, P4]
+sailor_is_learner_data "reading/my-book.md" && ok "U6 reading/*.md protected" || no "U6 reading/*.md protected"
+sailor_is_learner_data "reading/_TEMPLATE.md" && no "U6b reading/_TEMPLATE installable" || ok "U6b reading/_TEMPLATE installable"
+
 # U5 — apply rolls back cleanly and leaves no nested .sailortmp (findings #7/#8)
 s="$tmp/as"; t="$tmp/at"; mkdir -p "$s/Skill" "$t/Skill"
 printf 'ok\n' > "$s/Skill/ok.md"          # exists; "Skill/missing.md" does not → cp fails mid-apply

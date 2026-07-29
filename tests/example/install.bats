@@ -13,16 +13,20 @@ teardown() { rm -rf "$TARGET"; }
   [ "$status" -eq 0 ]
   [ -f "$TARGET/AGENTS.md" ]
   [ -f "$TARGET/Skill/file-based-socratic-dialogue.md" ]
+  [ -f "$TARGET/Skill/reading-companion.md" ]
   [ -f "$TARGET/dialogue/_TEMPLATE.md" ]
+  [ -f "$TARGET/reading/_TEMPLATE.md" ]
   [ -f "$TARGET/sailor.manifest" ]
   [ -f "$TARGET/VERSION" ]
+  # installer must NOT fabricate a learner book transcript (only the template ships)
+  ! ls "$TARGET"/reading/*.md 2>/dev/null | grep -qv '_TEMPLATE.md'
 }
 
 @test "E2 no-op update makes no changes" {
   $INSTALL install "$TARGET" --source "$ROOT"
   run $INSTALL update "$TARGET" --source "$ROOT"
   [ "$status" -eq 0 ]
-  echo "$output" | grep -q "noop=9"
+  echo "$output" | grep -q "noop=11"
 }
 
 @test "E3 locally-modified contract file → exit 2, no writes" {
@@ -60,16 +64,18 @@ teardown() { rm -rf "$TARGET"; }
   [ "$status" -eq 4 ]
 }
 
-@test "E7 learner Knowledge + dialogue + assessments never modified across update" {
+@test "E7 learner Knowledge + dialogue + assessments + reading never modified across update" {
   $INSTALL install "$TARGET" --source "$ROOT"
   printf 'k\n' > "$TARGET/Knowledge/tcp.md"
   printf 'd\n' > "$TARGET/dialogue/x.md"
   printf 'a\n' > "$TARGET/assessments/exam.md"
-  b1="$(sha_of "$TARGET/Knowledge/tcp.md")"; b2="$(sha_of "$TARGET/dialogue/x.md")"; b3="$(sha_of "$TARGET/assessments/exam.md")"
+  printf 'r\n' > "$TARGET/reading/my-book.md"
+  b1="$(sha_of "$TARGET/Knowledge/tcp.md")"; b2="$(sha_of "$TARGET/dialogue/x.md")"; b3="$(sha_of "$TARGET/assessments/exam.md")"; b4="$(sha_of "$TARGET/reading/my-book.md")"
   $INSTALL update "$TARGET" --source "$ROOT" --force
   [ "$(sha_of "$TARGET/Knowledge/tcp.md")" = "$b1" ]
   [ "$(sha_of "$TARGET/dialogue/x.md")" = "$b2" ]
   [ "$(sha_of "$TARGET/assessments/exam.md")" = "$b3" ]
+  [ "$(sha_of "$TARGET/reading/my-book.md")" = "$b4" ]
 }
 
 @test "E8 trailing value-less --source errors quickly (no infinite loop)" {

@@ -4,7 +4,7 @@
 # Properties:
 #   P1 idempotency        — a second update with the same source is a no-op
 #   P2 manifest round-trip — parse(render(m)) == m
-#   P3 learner-data        — Knowledge/*.md and dialogue/*.md never change across any flow
+#   P3 learner-data        — Knowledge/*.md, dialogue/*.md, assessments/*.md, reading/*.md never change across any flow
 #   P4 classify oracle     — classification matches the FileState truth table
 set -uo pipefail
 
@@ -72,12 +72,13 @@ p1p3() {
     [ "$(rnd 2)" = "0" ] && printf 'random-%s\n' "$(rstr)" > "$tgt/AGENTS.md"
     $INSTALL install "$tgt" --source "$ROOT" >/dev/null 2>&1 || { $INSTALL install "$tgt" --source "$ROOT" --force >/dev/null 2>&1; }
     # add random learner data
-    mkdir -p "$tgt/Knowledge" "$tgt/dialogue" "$tgt/assessments"
+    mkdir -p "$tgt/Knowledge" "$tgt/dialogue" "$tgt/assessments" "$tgt/reading"
     printf 'k-%s\n' "$(rstr)" > "$tgt/Knowledge/note-$i.md"
     printf 'd-%s\n' "$(rstr)" > "$tgt/dialogue/topic-$i.md"
     printf 'a-%s\n' "$(rstr)" > "$tgt/assessments/exam-$i.md"
+    printf 'r-%s\n' "$(rstr)" > "$tgt/reading/book-$i.md"
     b1="$(sailor_sha256 "$tgt/Knowledge/note-$i.md")"; b2="$(sailor_sha256 "$tgt/dialogue/topic-$i.md")"
-    b3="$(sailor_sha256 "$tgt/assessments/exam-$i.md")"
+    b3="$(sailor_sha256 "$tgt/assessments/exam-$i.md")"; b4="$(sailor_sha256 "$tgt/reading/book-$i.md")"
     # P1: second update is a no-op
     $INSTALL update "$tgt" --source "$ROOT" --force >/dev/null 2>&1
     out2="$($INSTALL update "$tgt" --source "$ROOT" 2>&1)"
@@ -86,6 +87,7 @@ p1p3() {
     [ "$(sailor_sha256 "$tgt/Knowledge/note-$i.md")" = "$b1" ] || { echo "  P3 FAIL Knowledge iter=$i"; fail=1; }
     [ "$(sailor_sha256 "$tgt/dialogue/topic-$i.md")" = "$b2" ] || { echo "  P3 FAIL dialogue iter=$i"; fail=1; }
     [ "$(sailor_sha256 "$tgt/assessments/exam-$i.md")" = "$b3" ] || { echo "  P3 FAIL assessments iter=$i"; fail=1; }
+    [ "$(sailor_sha256 "$tgt/reading/book-$i.md")" = "$b4" ] || { echo "  P3 FAIL reading iter=$i"; fail=1; }
     rm -rf "$tgt"
   done
   echo "  P1 idempotency + P3 learner-data: done ($ITER)"

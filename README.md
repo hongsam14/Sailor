@@ -10,8 +10,8 @@ each repo and are never clobbered by an update.
 
 ## The three axes
 - **`AGENTS.md`** — the self-contained tutor **contract** (behavior): HITL 3-Gate, SOLO L0–L4, grounding, handoff.
-- **`Skill/`** — reusable **procedures** the tutor applies (e.g. the file-dialogue protocol, web-grounded
-  verification for accurate grading, a hint ladder).
+- **`Skill/`** — reusable **procedures** the tutor applies (e.g. the file-dialogue protocol, the
+  reading-companion book protocol, web-grounded verification for accurate grading, a hint ladder).
 - **`Knowledge/`** — verified, citable **facts** (the source of truth), preferably learner-authored at L4.
 
 Bound together by the **HITL 3-Gate + SOLO** loop. Full rationale in [`philosophy/`](philosophy/).
@@ -19,17 +19,18 @@ Bound together by the **HITL 3-Gate + SOLO** loop. Full rationale in [`philosoph
 ## What gets installed (payload) vs. what stays here
 | Installed into a consumer repo | Sailor-only (not installed) |
 | --- | --- |
-| `AGENTS.md`, `Skill/_TEMPLATE.md`, `Skill/file-based-socratic-dialogue.md`, `Skill/web-grounded-verification.md`, `Skill/problem-authoring-and-grading.md`, `Knowledge/_TEMPLATE.md`, `dialogue/_TEMPLATE.md`, `assessments/_TEMPLATE.md`, `VERSION`, generated `sailor.manifest` | `philosophy/`, `examples/`, `installer/`, `tests/`, `payload.manifest`, CI |
+| `AGENTS.md`, `Skill/_TEMPLATE.md`, `Skill/file-based-socratic-dialogue.md`, `Skill/web-grounded-verification.md`, `Skill/problem-authoring-and-grading.md`, `Skill/reading-companion.md`, `Knowledge/_TEMPLATE.md`, `dialogue/_TEMPLATE.md`, `assessments/_TEMPLATE.md`, `reading/_TEMPLATE.md`, `VERSION`, generated `sailor.manifest` | `philosophy/`, `examples/`, `installer/`, `tests/`, `payload.manifest`, CI |
 
-Learner **data** — your `Knowledge/*.md` entries, `dialogue/*.md` transcripts, and `assessments/*.md`
-records — is yours and is **never** created, modified, or deleted by the installer.
+Learner **data** — your `Knowledge/*.md` entries, `dialogue/*.md` transcripts, `assessments/*.md`
+records, and `reading/*.md` book transcripts — is yours and is **never** created, modified, or deleted
+by the installer.
 
 ## Install
 
 ### A) One-liner (`curl | bash`) — pin a released tag
 ```bash
-SAILOR_REF=v1.0.0 \
-  curl -fsSL https://raw.githubusercontent.com/hongsam14/Sailor/v1.0.0/scripts/sailor-install.sh \
+SAILOR_REF=v1.1.0 \
+  curl -fsSL https://raw.githubusercontent.com/hongsam14/Sailor/v1.1.0/scripts/sailor-install.sh \
   | bash -s -- /path/to/your-repo
 ```
 > **Trust boundary:** a `curl | bash` bootstrap **cannot verify itself** — always pin `SAILOR_REF` to a
@@ -39,8 +40,8 @@ SAILOR_REF=v1.0.0 \
 > corruption, not a fully-controlled malicious archive. For stronger authenticity, pin the manifest's
 > own digest out-of-band:
 > ```bash
-> SAILOR_REF=v1.0.0 SAILOR_EXPECT_DIGEST=<manifest-sha256> \
->   curl -fsSL .../v1.0.0/scripts/sailor-install.sh | bash -s -- /path/to/your-repo
+> SAILOR_REF=v1.1.0 SAILOR_EXPECT_DIGEST=<manifest-sha256> \
+>   curl -fsSL .../v1.1.0/scripts/sailor-install.sh | bash -s -- /path/to/your-repo
 > ```
 > (`--expect-digest <sha>` on `install.sh` does the same for clone/`--source` installs.)
 

@@ -3,6 +3,21 @@
 All notable changes to Sailor are documented here. Format loosely follows
 [Keep a Changelog]; versions follow SemVer.
 
+## [1.1.0] — 2026-07-29
+### Added
+- **Reading Companion Mode** (FR-13..FR-22): Sailor co-reads a CS/technical book with the learner — the
+  learner pastes a section, Sailor runs the section-level Socratic HITL loop (SOLO L0–L4) to raise
+  comprehension. Core Skill `Skill/reading-companion.md` (self-contained; no `AGENTS.md` change).
+- Learner-data template `reading/_TEMPLATE.md` — per-book transcript `reading/<book-slug>.md` (chapters
+  accrete), **copyright-safe** capture (≤ ~1–2 sentence snippet + the learner's own paraphrase).
+- **Knowledge-only extraction**: understood concepts become **learner-authored** `Knowledge/` entries at
+  🔵 L4 (Gate 2); candidates live only in `reading/` until then. **No Skill extraction** (a book's method is
+  captured as Knowledge; formal Skill authoring stays a maintainer act). Deep per-concept drills spin off to
+  `dialogue/<topic>.md` (existing File Dialogue Mode), linked from the reading transcript.
+- Installer: `reading/*.md` is learner data (never created/modified/deleted); payload grows by two
+  (`Skill/reading-companion.md`, `reading/_TEMPLATE.md`) → 11 entries. New tests: predicate cases for
+  `reading/` (unit) and a learner-data invariant + install-presence checks for `reading/` (property + bats).
+
 ## [1.0.0] — 2026-07-28
 ### Added
 - Initial release of the **Sailor** AI-Tutor toolkit.

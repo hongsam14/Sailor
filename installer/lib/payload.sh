@@ -1,6 +1,7 @@
 # shellcheck shell=bash
 # Canonical installed payload (MUST match payload.manifest and the code-generation plan).
-# Learner DATA (Knowledge/* entries, dialogue/* transcripts) is NEVER in this list and NEVER touched.
+# Learner DATA (Knowledge/* entries, dialogue/* transcripts, reading/* transcripts) is NEVER in this
+# list and NEVER touched.
 
 # shellcheck disable=SC2034  # used by classify.sh / manifest.sh / fetch.sh (sourced siblings)
 SAILOR_PAYLOAD_FILES=(
@@ -9,9 +10,11 @@ SAILOR_PAYLOAD_FILES=(
   "Skill/file-based-socratic-dialogue.md"
   "Skill/web-grounded-verification.md"
   "Skill/problem-authoring-and-grading.md"
+  "Skill/reading-companion.md"
   "Knowledge/_TEMPLATE.md"
   "dialogue/_TEMPLATE.md"
   "assessments/_TEMPLATE.md"
+  "reading/_TEMPLATE.md"
   "VERSION"
 )
 
@@ -21,9 +24,11 @@ sailor_is_learner_data() {
     Knowledge/_TEMPLATE.md)   return 1 ;;
     dialogue/_TEMPLATE.md)    return 1 ;;
     assessments/_TEMPLATE.md) return 1 ;;
+    reading/_TEMPLATE.md)     return 1 ;;
     Knowledge/*.md)           return 0 ;;
     dialogue/*.md)            return 0 ;;
     assessments/*.md)         return 0 ;;
+    reading/*.md)             return 0 ;;
     *)                        return 1 ;;
   esac
 }
